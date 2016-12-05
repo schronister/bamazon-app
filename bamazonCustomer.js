@@ -56,6 +56,20 @@ function promptBuy(){
 		}
 		]).then(function(answer){
 			//check that stock is sufficient for the item chosen
+			for (var i = 0; i < res.length; i++){
+				if (answer.id === res[i].product_name){
+					if (answer.num <= res[i].stock_quantity){
+					console.log("Your total is " + answer.num * res[i].price);
+					console.log("Congratulations on your purchase!");
+					//subtract from stock
+					connection.query('UPDATE products SET stock_quantity = ? WHERE item_id = ?',[res[i].stock_quantity-answer.num,res[i].item_id])
+					}
+					else{
+						console.log("Sorry, we don't have enough in stock for your purchase.")
+					}
+				}
+			}
+			
 		})
 
 
