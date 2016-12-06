@@ -59,10 +59,28 @@ function promptBuy(){
 			for (var i = 0; i < res.length; i++){
 				if (answer.id === res[i].product_name){
 					if (answer.num <= res[i].stock_quantity){
-					console.log("Your total is " + answer.num * res[i].price);
+					//calculate the total cost
+					var totalCost = answer.num*res[i].price;
+					console.log("Your total is $" + totalCost);
+					var saleDep = res[i].department_name;
+					var dep;
+					var totalSales = 0;
+					//first grabbing the right department
+					connection.query('SELECT * FROM departments', function(errorTwo, resTwo){
+						for (var j = 0; j < resTwo.length; j++){
+							if (resTwo[j].department_name === saleDep){
+								dep = resTwo[j].department_id;
+								if (resTwo[j].total_sales > 0){
+									totalSales = resTwo[j].total_sales;
+									//add total sale to the appropriate department
+									connection.query('UPDATE departments SET total_sales = ? WHERE department_id = ?',[totalSales+totalCost,dep]);
+								}
+							}
+						}
+					})
 					console.log("Congratulations on your purchase!");
 					//subtract from stock
-					connection.query('UPDATE products SET stock_quantity = ? WHERE item_id = ?',[res[i].stock_quantity-answer.num,res[i].item_id])
+					connection.query('UPDATE products SET stock_quantity = ? WHERE item_id = ?',[res[i].stock_quantity-answer.num,res[i].item_id]);
 					}
 					else{
 						console.log("Sorry, we don't have enough in stock for your purchase.")

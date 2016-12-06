@@ -16,4 +16,21 @@ VALUES("Space Suit","Clothing",499.99,5),
 ("Extra Fuel","Misc",500.00,5),
 ("Lunar Rover","Vehicles",40000.00,3),
 ("Ipod","Entertainment",200.00,6),
-("Improbability Drive", "Misc", 60000, 1)
+("Improbability Drive", "Misc", 60000, 1);
+
+
+CREATE TABLE departments(
+department_id INT AUTO_INCREMENT NOT NULL,
+department_name VARCHAR(200),
+over_head_costs FLOAT,
+total_sales FLOAT,
+PRIMARY KEY (department_id));
+
+
+INSERT INTO departments(department_name,over_head_costs,total_sales)
+VALUES("Clothing",50,0),
+("Vehicles",150,0),
+("Food",5,0),
+("Misc",25,0),
+("Entertainment",15,0)
+
